@@ -318,13 +318,38 @@
             debugLog.push({message: logEntry, type});
             
             const logPanel = document.getElementById('debug-log');
-            const div = document.createElement('div');
-            div.className = type;
-            div.textContent = logEntry;
-            logPanel.appendChild(div);
-            logPanel.scrollTop = logPanel.scrollHeight;
+            if (logPanel) {
+                const div = document.createElement('div');
+                div.className = type;
+                div.textContent = logEntry;
+                logPanel.appendChild(div);
+                logPanel.scrollTop = logPanel.scrollHeight;
+            }
             
             console.log(logEntry);
+        }
+        
+        function checkPassword() {
+            const passwordInput = document.getElementById('password-input');
+            const passwordError = document.getElementById('password-error');
+            const passwordScreen = document.getElementById('password-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            if (passwordInput.value === '1@Clearwave') {
+                passwordScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                log('✅ Password verified successfully', 'success');
+                // Auto-start the widget after successful login
+                setTimeout(() => {
+                    log('🚀 Auto-starting with Method 1...', 'info');
+                    testMethod1();
+                }, 1000);
+            } else {
+                passwordError.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                log('❌ Incorrect password attempt', 'error');
+            }
         }
         
         function clearWidget() {
@@ -466,14 +491,8 @@
             waitForWidget(3);
         }
         
-        // Check if we're on localhost or need domain fix
-        if (location.hostname === 'localhost' || location.hostname.indexOf('.') === -1) {
-            log('⚠️ Warning: You may need a proper domain name for Genesys widgets to work', 'error');
-        }
         
-        // Check for common blocking issues
-        log('🔍 Current domain: ' + location.hostname, 'info');
-        log('🔍 Protocol: ' + location.protocol, 'info');
+        // Check if we're on localhost or need domain fix - MOVED to window load event
         
         
         // Auto-start with method 1 - REMOVED since it now happens after password verification
