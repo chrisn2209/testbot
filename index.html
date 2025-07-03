@@ -63,60 +63,38 @@
             cursor: pointer;
         }
         
-        /* Genesys Widget Styling - More Robust Selectors */
+        /* Genesys Widget Custom Styling - Back to Working Version */
         #genesys-support-center {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             background-color: #f5f7fa !important;
-            width: 100% !important;
-            max-width: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
         }
 
-        /* Force full width on all containers */
-        #genesys-support-center > * {
-            width: 100% !important;
-            max-width: none !important;
-        }
-
-        /* Hero section - target multiple possible selectors */
-        #genesys-support-center > div:first-child,
+        /* Hero section with blue background */
         #genesys-support-center [class*="hero"],
         #genesys-support-center [class*="header"],
         #genesys-support-center [class*="banner"],
-        #genesys-support-center [style*="background-color: rgb(30, 91, 168)"],
-        #genesys-support-center [style*="background: rgb(30, 91, 168)"] {
+        #genesys-support-center [style*="background"] {
             background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%) !important;
             color: white !important;
-            padding: 80px 20px !important;
+            padding: 60px 20px !important;
             text-align: center !important;
-            width: 100% !important;
-            max-width: none !important;
-            margin: 0 !important;
         }
 
-        /* Welcome title - target multiple heading levels and classes */
+        /* Title styling */
         #genesys-support-center h1,
-        #genesys-support-center h2,
         #genesys-support-center [class*="title"],
-        #genesys-support-center [class*="heading"],
-        #genesys-support-center div:first-child h1,
-        #genesys-support-center div:first-child h2 {
+        #genesys-support-center [class*="heading"] {
             color: white !important;
             font-size: 48px !important;
             font-weight: 300 !important;
             margin-bottom: 30px !important;
             text-align: center !important;
-            line-height: 1.2 !important;
-            width: 100% !important;
         }
 
-        /* Search input - broader selectors */
-        #genesys-support-center input,
+        /* Search input */
         #genesys-support-center input[type="text"],
         #genesys-support-center input[type="search"],
-        #genesys-support-center [class*="search"] input,
-        #genesys-support-center [class*="input"] {
+        #genesys-support-center [class*="search"] input {
             width: 100% !important;
             max-width: 500px !important;
             padding: 15px 20px !important;
@@ -127,50 +105,22 @@
             margin: 0 auto !important;
             display: block !important;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
-            outline: none !important;
         }
 
-        /* Search container */
-        #genesys-support-center [class*="search"],
-        #genesys-support-center form {
-            max-width: 500px !important;
-            margin: 0 auto !important;
-            position: relative !important;
-            width: 100% !important;
-        }
-
-        /* Main content area - ensure full width */
-        #genesys-support-center > div:not(:first-child),
-        #genesys-support-center [class*="content"],
-        #genesys-support-center [class*="main"] {
-            width: 100% !important;
-            max-width: 1200px !important;
-            margin: 0 auto !important;
-            padding: 0 20px !important;
-        }
-
-        /* Category cards - more flexible grid */
-        #genesys-support-center div[style*="display: flex"],
-        #genesys-support-center div[style*="grid"],
+        /* Category cards grid */
         #genesys-support-center [class*="grid"],
         #genesys-support-center [class*="category"],
         #genesys-support-center [class*="card-container"] {
             display: grid !important;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
             gap: 20px !important;
-            padding: 60px 20px !important;
+            padding: 40px 20px !important;
             max-width: 1200px !important;
             margin: 0 auto !important;
-            background-color: #f5f7fa !important;
-            width: 100% !important;
         }
 
-        /* Individual cards - target various possible structures */
-        #genesys-support-center div[style*="background-color: rgb(255, 255, 255)"],
-        #genesys-support-center div[style*="background: rgb(255, 255, 255)"],
-        #genesys-support-center [class*="card"],
-        #genesys-support-center div[style*="border-radius"],
-        #genesys-support-center div[style*="box-shadow"] {
+        /* Individual cards */
+        #genesys-support-center [class*="card"]:not([class*="container"]) {
             background: white !important;
             padding: 30px 20px !important;
             border-radius: 8px !important;
@@ -179,40 +129,22 @@
             text-align: center !important;
             cursor: pointer !important;
             transition: all 0.3s ease !important;
-            width: 100% !important;
-            margin: 0 !important;
         }
 
-        /* Card hover effects */
-        #genesys-support-center div[style*="background-color: rgb(255, 255, 255)"]:hover,
         #genesys-support-center [class*="card"]:hover {
             transform: translateY(-5px) !important;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
         }
 
-        /* Articles section */
+        /* Article sections */
         #genesys-support-center [class*="article"],
-        #genesys-support-center section,
-        #genesys-support-center div:last-child {
+        #genesys-support-center [class*="content"]:not([class*="loading"]) {
             background: white !important;
             border-radius: 8px !important;
             padding: 40px !important;
             margin: 20px auto !important;
             max-width: 1200px !important;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
-            width: calc(100% - 40px) !important;
-        }
-
-        /* Force full width on problematic containers */
-        #genesys-support-center div[style*="width"] {
-            width: 100% !important;
-            max-width: 1200px !important;
-        }
-
-        /* Override any fixed widths */
-        #genesys-support-center * {
-            box-sizing: border-box !important;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
         }
 
         /* Links and buttons */
@@ -228,20 +160,25 @@
             border: none !important;
             border-radius: 4px !important;
             padding: 10px 20px !important;
-            cursor: pointer !important;
+        }
+
+        /* Chat button */
+        #genesys-support-center [class*="chat"],
+        #genesys-support-center [class*="float"] {
+            background: #1e5ba8 !important;
+            border-radius: 50% !important;
+            box-shadow: 0 4px 20px rgba(30, 91, 168, 0.3) !important;
         }
 
         /* Mobile responsive */
         @media (max-width: 768px) {
-            #genesys-support-center h1,
-            #genesys-support-center h2 {
+            #genesys-support-center h1 {
                 font-size: 32px !important;
             }
             
-            #genesys-support-center div[style*="display: flex"],
-            #genesys-support-center [class*="grid"] {
+            #genesys-support-center [class*="grid"],
+            #genesys-support-center [class*="category"] {
                 grid-template-columns: 1fr !important;
-                padding: 20px !important;
             }
         }
     </style>
