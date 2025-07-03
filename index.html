@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Center</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        /* Genesys Support Center - Clearwave Fiber Style */
+        #genesys-support-center {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+            background-color: #f5f7fa !important;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Header/Hero section with blue background */
+        #genesys-support-center .hero-section,
+        #genesys-support-center .header-section,
+        #genesys-support-center [class*="hero"],
+        #genesys-support-center [class*="header"],
+        #genesys-support-center [class*="banner"] {
+            background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%) !important;
+            color: white !important;
+            padding: 60px 20px !important;
+            text-align: center !important;
+        }
+
+        /* Welcome title styling */
+        #genesys-support-center h1,
+        #genesys-support-center .title,
+        #genesys-support-center [class*="title"],
+        #genesys-support-center [class*="heading"] {
+            color: white !important;
+            font-size: 48px !important;
+            font-weight: 300 !important;
+            margin-bottom: 30px !important;
+            line-height: 1.2 !important;
+        }
+
+        /* Search box styling */
+        #genesys-support-center input[type="text"],
+        #genesys-support-center input[type="search"],
+        #genesys-support-center .search-input,
+        #genesys-support-center [class*="search"] input,
+        #genesys-support-center [class*="input"] {
+            width: 100% !important;
+            max-width: 500px !important;
+            padding: 15px 20px !important;
+            border: none !important;
+            border-radius: 25px !important;
+            font-size: 16px !important;
+            outline: none !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+            margin: 0 auto !important;
+            display: block !important;
+            background: white !important;
+        }
+
+        /* Search container */
+        #genesys-support-center .search-container,
+        #genesys-support-center [class*="search-container"],
+        #genesys-support-center [class*="search-wrapper"] {
+            max-width: 500px !important;
+            margin: 0 auto !important;
+            position: relative !important;
+        }
+
+        /* Support category cards container */
+        #genesys-support-center .category-cards,
+        #genesys-support-center .support-categories,
+        #genesys-support-center [class*="category"],
+        #genesys-support-center [class*="card-container"],
+        #genesys-support-center [class*="grid"] {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+            gap: 20px !important;
+            padding: 40px 20px !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+        }
+
+        /* Individual category cards */
+        #genesys-support-center .card,
+        #genesys-support-center .category-card,
+        #genesys-support-center [class*="card"]:not([class*="container"]):not([class*="grid"]) {
+            background: white !important;
+            padding: 30px 20px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+            text-align: center !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            border: 1px solid #e1e5e9 !important;
+        }
+
+        #genesys-support-center .card:hover,
+        #genesys-support-center .category-card:hover,
+        #genesys-support-center [class*="card"]:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+        }
+
+        /* Card titles */
+        #genesys-support-center .card h3,
+        #genesys-support-center .card .title,
+        #genesys-support-center .category-card h3,
+        #genesys-support-center [class*="card"] h3,
+        #genesys-support-center [class*="card"] [class*="title"] {
+            color: #333 !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            margin-bottom: 5px !important;
+        }
+
+        /* Card descriptions */
+        #genesys-support-center .card p,
+        #genesys-support-center .card .description,
+        #genesys-support-center .category-card p,
+        #genesys-support-center [class*="card"] p {
+            color: #666 !important;
+            font-size: 14px !important;
+        }
+
+        /* Top Articles section */
+        #genesys-support-center .articles-section,
+        #genesys-support-center .top-articles,
+        #genesys-support-center [class*="articles"],
+        #genesys-support-center [class*="popular"],
+        #genesys-support-center [class*="content"] {
+            background: white !important;
+            border-radius: 8px !important;
+            padding: 40px !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+            max-width: 1200px !important;
+            margin: 0 auto 40px auto !important;
+        }
+
+        /* Articles section title */
+        #genesys-support-center .articles-section h2,
+        #genesys-support-center .top-articles h2,
+        #genesys-support-center [class*="articles"] h2 {
+            font-size: 24px !important;
+            color: #333 !important;
+            margin-bottom: 10px !important;
+        }
+
+        /* Articles subtitle */
+        #genesys-support-center .articles-section .subtitle,
+        #genesys-support-center .top-articles .subtitle,
+        #genesys-support-center [class*="articles"] .subtitle,
+        #genesys-support-center [class*="description"] {
+            color: #666 !important;
+            margin-bottom: 30px !important;
+            font-size: 14px !important;
+        }
+
+        /* Article list items */
+        #genesys-support-center .article-item,
+        #genesys-support-center .article-link,
+        #genesys-support-center [class*="article"] a,
+        #genesys-support-center [class*="list-item"] {
+            padding: 15px 0 !important;
+            border-bottom: 1px solid #e1e5e9 !important;
+            cursor: pointer !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            text-decoration: none !important;
+            color: #333 !important;
+        }
+
+        #genesys-support-center .article-item:hover,
+        #genesys-support-center .article-link:hover,
+        #genesys-support-center [class*="article"] a:hover {
+            color: #1e5ba8 !important;
+        }
+
+        /* Chat button styling */
+        #genesys-support-center .chat-button,
+        #genesys-support-center [class*="chat-button"],
+        #genesys-support-center .floating-chat,
+        #genesys-support-center [class*="float"] {
+            background: #1e5ba8 !important;
+            border-radius: 50% !important;
+            box-shadow: 0 4px 20px rgba(30, 91, 168, 0.3) !important;
+            color: white !important;
+        }
+
+        /* General text styling */
+        #genesys-support-center * {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+        }
+
+        /* Button styling */
+        #genesys-support-center button,
+        #genesys-support-center .button,
+        #genesys-support-center [class*="btn"] {
+            background: #1e5ba8 !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 4px !important;
+            padding: 10px 20px !important;
+            cursor: pointer !important;
+            transition: background 0.3s ease !important;
+        }
+
+        #genesys-support-center button:hover,
+        #genesys-support-center .button:hover,
+        #genesys-support-center [class*="btn"]:hover {
+            background: #174a94 !important;
+        }
+
+        /* Links styling */
+        #genesys-support-center a {
+            color: #1e5ba8 !important;
+            text-decoration: none !important;
+        }
+
+        #genesys-support-center a:hover {
+            text-decoration: underline !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #genesys-support-center h1,
+            #genesys-support-center .title,
+            #genesys-support-center [class*="title"] {
+                font-size: 32px !important;
+            }
+            
+            #genesys-support-center .category-cards,
+            #genesys-support-center .support-categories,
+            #genesys-support-center [class*="grid"] {
+                grid-template-columns: 1fr !important;
+                padding: 20px !important;
+            }
+            
+            #genesys-support-center .articles-section,
+            #genesys-support-center .top-articles,
+            #genesys-support-center [class*="content"] {
+                padding: 20px !important;
+            }
+        }
+
+        /* Override any inline styles */
+        #genesys-support-center [style*="background"] {
+            background: inherit !important;
+        }
+
+        /* Ensure proper spacing */
+        #genesys-support-center {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Genesys Support Center -->
+    <div id="genesys-support-center">
+        <div class="loading">Loading support center...</div>
+    </div>
+    
+    <!-- Genesys Script -->
+    <script type="text/javascript" charset="utf-8">
+    (function (g, e, n, es, ys) {
+        g['_genesysJs'] = e;
+        g[e] = g[e] || function () {
+            (g[e].q = g[e].q || []).push(arguments)
+        };
+        g[e].t = 1 * new Date();
+        g[e].c = es;
+        ys = document.createElement('script'); 
+        ys.async = 1; 
+        ys.src = n; 
+        ys.charset = 'utf-8'; 
+        document.head.appendChild(ys);
+    })(window, 'Genesys', 'https://apps.usw2.pure.cloud/genesys-bootstrap/genesys.min.js', {
+        environment: 'prod-usw2',
+        deploymentId: 'f5dcfe55-e3b6-4d5c-bcfb-5d40300125e3'
+    });
+    
+    // Remove loading message once widget loads
+    setTimeout(function() {
+        const loading = document.querySelector('.loading');
+        if (loading) {
+            loading.style.display = 'none';
+        }
+    }, 5000);
+    </script>
+</body>
+</html>
