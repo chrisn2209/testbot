@@ -186,13 +186,17 @@
             console.log(logEntry);
         }
         
+        // Define checkPassword function FIRST
         function checkPassword() {
             const passwordInput = document.getElementById('password-input');
             const passwordError = document.getElementById('password-error');
             const passwordScreen = document.getElementById('password-screen');
             const mainContent = document.getElementById('main-content');
             
-            if (passwordInput.value === '1@Clearwave') {
+            console.log('checkPassword called'); // Debug
+            
+            if (passwordInput && passwordInput.value === '1@Clearwave') {
+                console.log('Password correct'); // Debug
                 passwordScreen.style.display = 'none';
                 mainContent.style.display = 'block';
                 log('✅ Password verified successfully', 'success');
@@ -206,16 +210,20 @@
                     testMethod1();
                 }, 1000);
             } else {
-                passwordError.style.display = 'block';
-                passwordInput.value = '';
-                passwordInput.focus();
+                console.log('Password incorrect'); // Debug
+                if (passwordError) passwordError.style.display = 'block';
+                if (passwordInput) {
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
                 log('❌ Incorrect password attempt', 'error');
             }
         }
         
+        
         function applyGenesysStyles() {
             const style = document.createElement('style');
-            style.textContent = \`
+            style.textContent = `
                 /* Genesys Widget Custom Styling - Applied Only After Password */
                 #genesys-support-center {
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
@@ -334,7 +342,7 @@
                         grid-template-columns: 1fr !important;
                     }
                 }
-            \`;
+            `;
             document.head.appendChild(style);
             log('🎨 Genesys widget styling applied', 'success');
         }
