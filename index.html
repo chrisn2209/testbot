@@ -5,13 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genesys Widget Debug</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #f5f7fa;
+        /* Password screen styling - separate from widget */
+        #password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
+        .password-form {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .password-form h2 {
+            color: #1e5ba8;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        .password-form p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .password-form input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        
+        .password-form button {
+            width: 100%;
+            background: #1e5ba8;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .password-error {
+            color: #e74c3c;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Main content hidden until password verified */
+        #main-content {
+            display: none;
+        }
+
+        /* Debug panel styling */
         .debug-panel {
             background: #000;
             color: #0f0;
@@ -35,20 +96,6 @@
             color: #ff0;
         }
         
-        #genesys-support-center {
-            min-height: 500px;
-            border: 2px dashed #ccc;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-        }
-        
-        .placeholder {
-            text-align: center;
-            color: #666;
-            padding: 100px 20px;
-        }
-        
         .test-buttons {
             margin: 20px 0;
         }
@@ -63,135 +110,38 @@
             cursor: pointer;
         }
         
-        /* Genesys Widget Custom Styling - Back to Working Version */
+        .placeholder {
+            text-align: center;
+            color: #666;
+            padding: 100px 20px;
+        }
+        
+        /* Base page styling - no Genesys styling here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        
         #genesys-support-center {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-            background-color: #f5f7fa !important;
-        }
-
-        /* Hero section with blue background */
-        #genesys-support-center [class*="hero"],
-        #genesys-support-center [class*="header"],
-        #genesys-support-center [class*="banner"],
-        #genesys-support-center [style*="background"] {
-            background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%) !important;
-            color: white !important;
-            padding: 60px 20px !important;
-            text-align: center !important;
-        }
-
-        /* Title styling */
-        #genesys-support-center h1,
-        #genesys-support-center [class*="title"],
-        #genesys-support-center [class*="heading"] {
-            color: white !important;
-            font-size: 48px !important;
-            font-weight: 300 !important;
-            margin-bottom: 30px !important;
-            text-align: center !important;
-        }
-
-        /* Search input */
-        #genesys-support-center input[type="text"],
-        #genesys-support-center input[type="search"],
-        #genesys-support-center [class*="search"] input {
-            width: 100% !important;
-            max-width: 500px !important;
-            padding: 15px 20px !important;
-            border: none !important;
-            border-radius: 25px !important;
-            font-size: 16px !important;
-            background: white !important;
-            margin: 0 auto !important;
-            display: block !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
-        }
-
-        /* Category cards grid */
-        #genesys-support-center [class*="grid"],
-        #genesys-support-center [class*="category"],
-        #genesys-support-center [class*="card-container"] {
-            display: grid !important;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
-            gap: 20px !important;
-            padding: 40px 20px !important;
-            max-width: 1200px !important;
-            margin: 0 auto !important;
-        }
-
-        /* Individual cards */
-        #genesys-support-center [class*="card"]:not([class*="container"]) {
-            background: white !important;
-            padding: 30px 20px !important;
-            border-radius: 8px !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
-            border: 1px solid #e1e5e9 !important;
-            text-align: center !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-        }
-
-        #genesys-support-center [class*="card"]:hover {
-            transform: translateY(-5px) !important;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
-        }
-
-        /* Article sections */
-        #genesys-support-center [class*="article"],
-        #genesys-support-center [class*="content"]:not([class*="loading"]) {
-            background: white !important;
-            border-radius: 8px !important;
-            padding: 40px !important;
-            margin: 20px auto !important;
-            max-width: 1200px !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
-        }
-
-        /* Links and buttons */
-        #genesys-support-center a {
-            color: #1e5ba8 !important;
-            text-decoration: none !important;
-        }
-
-        #genesys-support-center button,
-        #genesys-support-center [class*="btn"] {
-            background: #1e5ba8 !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 4px !important;
-            padding: 10px 20px !important;
-        }
-
-        /* Chat button */
-        #genesys-support-center [class*="chat"],
-        #genesys-support-center [class*="float"] {
-            background: #1e5ba8 !important;
-            border-radius: 50% !important;
-            box-shadow: 0 4px 20px rgba(30, 91, 168, 0.3) !important;
-        }
-
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            #genesys-support-center h1 {
-                font-size: 32px !important;
-            }
-            
-            #genesys-support-center [class*="grid"],
-            #genesys-support-center [class*="category"] {
-                grid-template-columns: 1fr !important;
-            }
+            min-height: 500px;
+            border: 2px dashed #ccc;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
     <!-- Password Protection -->
-    <div id="password-screen" style="display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-        <div style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); text-align: center; max-width: 400px; width: 90%;">
-            <h2 style="color: #1e5ba8; margin-bottom: 30px; font-weight: 300;">Access Required</h2>
-            <p style="color: #666; margin-bottom: 20px;">Please enter the password to access the support center.</p>
-            <input type="password" id="password-input" placeholder="Enter password" style="width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; margin-bottom: 20px; outline: none;">
-            <button onclick="checkPassword()" style="width: 100%; background: #1e5ba8; color: white; border: none; padding: 15px; border-radius: 4px; font-size: 16px; cursor: pointer;">Access Support Center</button>
-            <div id="password-error" style="color: #e74c3c; margin-top: 10px; display: none;">Incorrect password. Please try again.</div>
+    <div id="password-screen">
+        <div class="password-form">
+            <h2>Access Required</h2>
+            <p>Please enter the password to access the support center.</p>
+            <input type="password" id="password-input" placeholder="Enter password">
+            <button onclick="checkPassword()">Access Support Center</button>
+            <div id="password-error" class="password-error">Incorrect password. Please try again.</div>
         </div>
     </div>
 
@@ -246,6 +196,10 @@
                 passwordScreen.style.display = 'none';
                 mainContent.style.display = 'block';
                 log('✅ Password verified successfully', 'success');
+                
+                // Apply Genesys widget styling AFTER password verification
+                applyGenesysStyles();
+                
                 // Auto-start the widget after successful login
                 setTimeout(() => {
                     log('🚀 Auto-starting with Method 1...', 'info');
@@ -257,6 +211,132 @@
                 passwordInput.focus();
                 log('❌ Incorrect password attempt', 'error');
             }
+        }
+        
+        function applyGenesysStyles() {
+            const style = document.createElement('style');
+            style.textContent = \`
+                /* Genesys Widget Custom Styling - Applied Only After Password */
+                #genesys-support-center {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                    background-color: #f5f7fa !important;
+                }
+
+                /* Hero section with blue background */
+                #genesys-support-center [class*="hero"],
+                #genesys-support-center [class*="header"],
+                #genesys-support-center [class*="banner"],
+                #genesys-support-center [style*="background"] {
+                    background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%) !important;
+                    color: white !important;
+                    padding: 60px 20px !important;
+                    text-align: center !important;
+                }
+
+                /* Title styling */
+                #genesys-support-center h1,
+                #genesys-support-center [class*="title"],
+                #genesys-support-center [class*="heading"] {
+                    color: white !important;
+                    font-size: 48px !important;
+                    font-weight: 300 !important;
+                    margin-bottom: 30px !important;
+                    text-align: center !important;
+                }
+
+                /* Search input */
+                #genesys-support-center input[type="text"],
+                #genesys-support-center input[type="search"],
+                #genesys-support-center [class*="search"] input {
+                    width: 100% !important;
+                    max-width: 500px !important;
+                    padding: 15px 20px !important;
+                    border: none !important;
+                    border-radius: 25px !important;
+                    font-size: 16px !important;
+                    background: white !important;
+                    margin: 0 auto !important;
+                    display: block !important;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+                }
+
+                /* Category cards grid */
+                #genesys-support-center [class*="grid"],
+                #genesys-support-center [class*="category"],
+                #genesys-support-center [class*="card-container"] {
+                    display: grid !important;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+                    gap: 20px !important;
+                    padding: 40px 20px !important;
+                    max-width: 1200px !important;
+                    margin: 0 auto !important;
+                }
+
+                /* Individual cards */
+                #genesys-support-center [class*="card"]:not([class*="container"]) {
+                    background: white !important;
+                    padding: 30px 20px !important;
+                    border-radius: 8px !important;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+                    border: 1px solid #e1e5e9 !important;
+                    text-align: center !important;
+                    cursor: pointer !important;
+                    transition: all 0.3s ease !important;
+                }
+
+                #genesys-support-center [class*="card"]:hover {
+                    transform: translateY(-5px) !important;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+                }
+
+                /* Article sections */
+                #genesys-support-center [class*="article"],
+                #genesys-support-center [class*="content"]:not([class*="loading"]) {
+                    background: white !important;
+                    border-radius: 8px !important;
+                    padding: 40px !important;
+                    margin: 20px auto !important;
+                    max-width: 1200px !important;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+                }
+
+                /* Links and buttons */
+                #genesys-support-center a {
+                    color: #1e5ba8 !important;
+                    text-decoration: none !important;
+                }
+
+                #genesys-support-center button,
+                #genesys-support-center [class*="btn"] {
+                    background: #1e5ba8 !important;
+                    color: white !important;
+                    border: none !important;
+                    border-radius: 4px !important;
+                    padding: 10px 20px !important;
+                }
+
+                /* Chat button */
+                #genesys-support-center [class*="chat"],
+                #genesys-support-center [class*="float"] {
+                    background: #1e5ba8 !important;
+                    border-radius: 50% !important;
+                    box-shadow: 0 4px 20px rgba(30, 91, 168, 0.3) !important;
+                }
+
+                /* Mobile responsive */
+                @media (max-width: 768px) {
+                    #genesys-support-center h1 {
+                        font-size: 32px !important;
+                    }
+                    
+                    #genesys-support-center [class*="grid"],
+                    #genesys-support-center [class*="category"] {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            \`;
+            document.head.appendChild(style);
+            log('🎨 Genesys widget styling applied', 'success');
         }
         
         function clearWidget() {
