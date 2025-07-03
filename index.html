@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support Center</title>
     <style>
-        /* Password screen only */
-        #password-screen {
+        /* ONLY password styling - NO Genesys styling at all */
+        .password-screen {
             position: fixed;
             top: 0;
             left: 0;
@@ -48,6 +48,7 @@
             font-size: 16px;
             margin-bottom: 20px;
             outline: none;
+            box-sizing: border-box;
         }
         
         .password-form button {
@@ -67,22 +68,21 @@
             display: none;
         }
 
-        /* Main content hidden until password verified */
-        #main-content {
+        /* Hide main content until password verified */
+        .main-content {
             display: none;
         }
 
-        /* Simple base styling - no Genesys interference */
+        /* Absolutely minimal body styling */
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
         }
     </style>
 </head>
 <body>
     <!-- Password Protection -->
-    <div id="password-screen">
+    <div id="password-screen" class="password-screen">
         <div class="password-form">
             <h2>Access Required</h2>
             <p>Please enter the password to access the support center.</p>
@@ -93,12 +93,11 @@
     </div>
 
     <!-- Main Content (hidden until password verified) -->
-    <div id="main-content">
-        <!-- Genesys Support Center -->
+    <div id="main-content" class="main-content">
+        <!-- Genesys Support Center - NO STYLING AT ALL -->
         <div id="genesys-support-center"></div>
     </div>
     
-    <!-- Genesys Script -->
     <script type="text/javascript" charset="utf-8">
         function checkPassword() {
             const passwordInput = document.getElementById('password-input');
@@ -107,16 +106,14 @@
             const mainContent = document.getElementById('main-content');
             
             if (passwordInput.value === '1@Clearwave') {
+                // Hide password, show content
                 passwordScreen.style.display = 'none';
                 mainContent.style.display = 'block';
                 
-                // Apply the SIMPLE styling that was working before
-                applySimpleStyles();
-                
-                // Start the widget
+                // Load Genesys widget with NO styling interference
                 setTimeout(() => {
                     loadGenesysWidget();
-                }, 500);
+                }, 100);
             } else {
                 passwordError.style.display = 'block';
                 passwordInput.value = '';
@@ -124,74 +121,8 @@
             }
         }
         
-        function applySimpleStyles() {
-            const style = document.createElement('style');
-            style.textContent = `
-                /* Simple Clearwave styling - exactly like before */
-                #genesys-support-center [class*="hero"],
-                #genesys-support-center [class*="header"],
-                #genesys-support-center [class*="banner"],
-                #genesys-support-center [style*="background"] {
-                    background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%) !important;
-                    color: white !important;
-                    padding: 60px 20px !important;
-                    text-align: center !important;
-                }
-
-                #genesys-support-center h1 {
-                    color: white !important;
-                    font-size: 48px !important;
-                    font-weight: 300 !important;
-                    margin-bottom: 30px !important;
-                    text-align: center !important;
-                }
-
-                #genesys-support-center input[type="text"],
-                #genesys-support-center input[type="search"] {
-                    width: 100% !important;
-                    max-width: 500px !important;
-                    padding: 15px 20px !important;
-                    border: none !important;
-                    border-radius: 25px !important;
-                    font-size: 16px !important;
-                    background: white !important;
-                    margin: 0 auto !important;
-                    display: block !important;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
-                }
-
-                #genesys-support-center [class*="card"] {
-                    background: white !important;
-                    padding: 30px 20px !important;
-                    border-radius: 8px !important;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
-                    border: 1px solid #e1e5e9 !important;
-                    text-align: center !important;
-                    cursor: pointer !important;
-                    transition: all 0.3s ease !important;
-                }
-
-                #genesys-support-center [class*="card"]:hover {
-                    transform: translateY(-5px) !important;
-                    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
-                }
-
-                #genesys-support-center a {
-                    color: #1e5ba8 !important;
-                }
-
-                #genesys-support-center button {
-                    background: #1e5ba8 !important;
-                    color: white !important;
-                    border: none !important;
-                    border-radius: 4px !important;
-                    padding: 10px 20px !important;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-        
         function loadGenesysWidget() {
+            // Load Genesys widget exactly as it should be - no modifications
             (function (g, e, n, es, ys) {
                 g['_genesysJs'] = e;
                 g[e] = g[e] || function () {
