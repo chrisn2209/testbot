@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genesys Widget Debug</title>
+    <title>Support Center</title>
     <style>
-        /* Password screen styling - separate from widget */
+        /* Password screen only */
         #password-screen {
             position: fixed;
             top: 0;
@@ -72,64 +72,11 @@
             display: none;
         }
 
-        /* Debug panel styling */
-        .debug-panel {
-            background: #000;
-            color: #0f0;
-            font-family: monospace;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .error {
-            color: #f00;
-        }
-        
-        .success {
-            color: #0f0;
-        }
-        
-        .info {
-            color: #ff0;
-        }
-        
-        .test-buttons {
-            margin: 20px 0;
-        }
-        
-        .test-buttons button {
-            background: #1e5ba8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .placeholder {
-            text-align: center;
-            color: #666;
-            padding: 100px 20px;
-        }
-        
-        /* Base page styling - no Genesys styling here */
+        /* Simple base styling - no Genesys interference */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background: #f5f7fa;
-        }
-        
-        #genesys-support-center {
-            min-height: 500px;
-            border: 2px dashed #ccc;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
     </style>
 </head>
@@ -146,129 +93,59 @@
     </div>
 
     <!-- Main Content (hidden until password verified) -->
-    <div id="main-content" style="display: none;">
-        <h1>Genesys Widget Debug Page</h1>
-        
-        <div class="debug-panel" id="debug-log">
-            <div>🔍 Starting Genesys widget debugging...</div>
-        </div>
-    
-    <div class="test-buttons">
-        <button onclick="testMethod1()">Test Method 1 (Original)</button>
-        <button onclick="testMethod2()">Test Method 2 (Alternative CDN)</button>
-        <button onclick="testMethod3()">Test Method 3 (Different Environment)</button>
-        <button onclick="clearWidget()">Clear Widget</button>
+    <div id="main-content">
+        <!-- Genesys Support Center -->
+        <div id="genesys-support-center"></div>
     </div>
     
-    <div id="genesys-support-center">
-        <div class="placeholder">
-            🔄 Waiting for Genesys widget to load...
-        </div>
-    </div>
-    
-    <script>
-        let debugLog = [];
-        
-        function log(message, type = 'info') {
-            const timestamp = new Date().toLocaleTimeString();
-            const logEntry = `[${timestamp}] ${message}`;
-            debugLog.push({message: logEntry, type});
-            
-            const logPanel = document.getElementById('debug-log');
-            if (logPanel) {
-                const div = document.createElement('div');
-                div.className = type;
-                div.textContent = logEntry;
-                logPanel.appendChild(div);
-                logPanel.scrollTop = logPanel.scrollHeight;
-            }
-            
-            console.log(logEntry);
-        }
-        
-        // Define checkPassword function FIRST
+    <!-- Genesys Script -->
+    <script type="text/javascript" charset="utf-8">
         function checkPassword() {
             const passwordInput = document.getElementById('password-input');
             const passwordError = document.getElementById('password-error');
             const passwordScreen = document.getElementById('password-screen');
             const mainContent = document.getElementById('main-content');
             
-            console.log('checkPassword called'); // Debug
-            
-            if (passwordInput && passwordInput.value === '1@Clearwave') {
-                console.log('Password correct'); // Debug
+            if (passwordInput.value === '1@Clearwave') {
                 passwordScreen.style.display = 'none';
                 mainContent.style.display = 'block';
-                log('✅ Password verified successfully', 'success');
                 
-                // Apply Genesys widget styling AFTER password verification
-                applyGenesysStyles();
+                // Apply the SIMPLE styling that was working before
+                applySimpleStyles();
                 
-                // Auto-start the widget after successful login
+                // Start the widget
                 setTimeout(() => {
-                    log('🚀 Auto-starting with Method 1...', 'info');
-                    testMethod1();
-                }, 1000);
+                    loadGenesysWidget();
+                }, 500);
             } else {
-                console.log('Password incorrect'); // Debug
-                if (passwordError) passwordError.style.display = 'block';
-                if (passwordInput) {
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                }
-                log('❌ Incorrect password attempt', 'error');
+                passwordError.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
             }
         }
         
-        
-        function applyGenesysStyles() {
+        function applySimpleStyles() {
             const style = document.createElement('style');
-            style.id = 'genesys-custom-styles';
             style.textContent = `
-                /* Force full width and proper layout */
-                #genesys-support-center {
-                    width: 100% !important;
-                    max-width: none !important;
-                    margin: 0 !important;
-                    padding: 0 !important;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-                    background-color: #f5f7fa !important;
-                    min-height: 100vh !important;
-                }
-                
-                /* Force all child elements to full width */
-                #genesys-support-center > * {
-                    width: 100% !important;
-                    max-width: none !important;
-                    margin: 0 auto !important;
-                }
-
-                /* Hero section - blue background like Clearwave */
-                #genesys-support-center > div:first-child,
+                /* Simple Clearwave styling - exactly like before */
                 #genesys-support-center [class*="hero"],
                 #genesys-support-center [class*="header"],
-                #genesys-support-center [class*="banner"] {
+                #genesys-support-center [class*="banner"],
+                #genesys-support-center [style*="background"] {
                     background: linear-gradient(135deg, #1e5ba8 0%, #2980b9 100%) !important;
                     color: white !important;
-                    padding: 80px 20px !important;
+                    padding: 60px 20px !important;
                     text-align: center !important;
-                    width: 100% !important;
-                    max-width: none !important;
-                    margin: 0 !important;
                 }
 
-                /* Welcome title */
-                #genesys-support-center h1,
-                #genesys-support-center h2 {
+                #genesys-support-center h1 {
                     color: white !important;
                     font-size: 48px !important;
                     font-weight: 300 !important;
                     margin-bottom: 30px !important;
                     text-align: center !important;
-                    line-height: 1.2 !important;
                 }
 
-                /* Search input - rounded like Clearwave */
                 #genesys-support-center input[type="text"],
                 #genesys-support-center input[type="search"] {
                     width: 100% !important;
@@ -281,34 +158,9 @@
                     margin: 0 auto !important;
                     display: block !important;
                     box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
-                    outline: none !important;
                 }
 
-                /* Content area - ensure proper width */
-                #genesys-support-center > div:not(:first-child) {
-                    width: 100% !important;
-                    max-width: 1200px !important;
-                    margin: 0 auto !important;
-                    padding: 40px 20px !important;
-                    background: #f5f7fa !important;
-                }
-
-                /* Category cards - grid layout */
-                #genesys-support-center div[style*="display: flex"],
-                #genesys-support-center div[style*="display:flex"] {
-                    display: grid !important;
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
-                    gap: 20px !important;
-                    padding: 40px 20px !important;
-                    width: 100% !important;
-                    max-width: 1200px !important;
-                    margin: 0 auto !important;
-                }
-
-                /* Individual cards - white background */
-                #genesys-support-center div[style*="background-color: rgb(255, 255, 255)"],
-                #genesys-support-center div[style*="background-color:rgb(255,255,255)"],
-                #genesys-support-center div[style*="background: rgb(255, 255, 255)"] {
+                #genesys-support-center [class*="card"] {
                     background: white !important;
                     padding: 30px 20px !important;
                     border-radius: 8px !important;
@@ -317,44 +169,15 @@
                     text-align: center !important;
                     cursor: pointer !important;
                     transition: all 0.3s ease !important;
-                    width: 100% !important;
                 }
 
-                /* Card hover effects */
-                #genesys-support-center div[style*="background-color: rgb(255, 255, 255)"]:hover {
+                #genesys-support-center [class*="card"]:hover {
                     transform: translateY(-5px) !important;
                     box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
                 }
 
-                /* Articles section */
-                #genesys-support-center div:last-child {
-                    background: white !important;
-                    border-radius: 8px !important;
-                    padding: 40px !important;
-                    margin: 20px auto !important;
-                    max-width: 1200px !important;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
-                    width: calc(100% - 40px) !important;
-                }
-
-                /* Override any problematic inline styles */
-                #genesys-support-center div[style*="width"] {
-                    width: 100% !important;
-                }
-                
-                #genesys-support-center div[style*="max-width"] {
-                    max-width: 1200px !important;
-                }
-
-                /* Force proper box sizing */
-                #genesys-support-center * {
-                    box-sizing: border-box !important;
-                }
-
-                /* Links and buttons */
                 #genesys-support-center a {
                     color: #1e5ba8 !important;
-                    text-decoration: none !important;
                 }
 
                 #genesys-support-center button {
@@ -363,70 +186,12 @@
                     border: none !important;
                     border-radius: 4px !important;
                     padding: 10px 20px !important;
-                    cursor: pointer !important;
-                }
-
-                /* Mobile responsive */
-                @media (max-width: 768px) {
-                    #genesys-support-center h1,
-                    #genesys-support-center h2 {
-                        font-size: 32px !important;
-                    }
-                    
-                    #genesys-support-center div[style*="display: flex"] {
-                        grid-template-columns: 1fr !important;
-                        padding: 20px !important;
-                    }
                 }
             `;
             document.head.appendChild(style);
-            log('🎨 Full-width Genesys styling applied', 'success');
-            
-            // Force a layout recalculation
-            setTimeout(() => {
-                const widget = document.getElementById('genesys-support-center');
-                if (widget) {
-                    widget.style.width = '100%';
-                    widget.style.maxWidth = 'none';
-                    log('📐 Widget width forced to 100%', 'success');
-                }
-            }, 500);
         }
         
-        function clearWidget() {
-            document.getElementById('genesys-support-center').innerHTML = '<div class="placeholder">🔄 Widget cleared. Click a test method to try again.</div>';
-            log('Widget cleared', 'info');
-        }
-        
-        function waitForWidget(method) {
-            let attempts = 0;
-            const maxAttempts = 30;
-            
-            const checkWidget = () => {
-                attempts++;
-                const widget = document.querySelector('#genesys-support-center');
-                
-                if (widget && widget.children.length > 1) {
-                    log(`✅ Widget loaded successfully with method ${method}!`, 'success');
-                    return;
-                }
-                
-                if (attempts >= maxAttempts) {
-                    log(`❌ Widget failed to load after ${maxAttempts} attempts with method ${method}`, 'error');
-                    return;
-                }
-                
-                setTimeout(checkWidget, 1000);
-            };
-            
-            setTimeout(checkWidget, 2000);
-        }
-        
-        // Method 1: Original deployment
-        function testMethod1() {
-            log('🧪 Testing Method 1: Original Genesys deployment', 'info');
-            clearWidget();
-            
+        function loadGenesysWidget() {
             (function (g, e, n, es, ys) {
                 g['_genesysJs'] = e;
                 g[e] = g[e] || function () {
@@ -437,106 +202,26 @@
                 ys = document.createElement('script'); 
                 ys.async = 1; 
                 ys.src = n; 
-                ys.charset = 'utf-8';
-                
-                ys.onload = function() {
-                    log('✅ Method 1: Genesys script loaded', 'success');
-                };
-                
-                ys.onerror = function() {
-                    log('❌ Method 1: Script failed to load', 'error');
-                };
-                
+                ys.charset = 'utf-8'; 
                 document.head.appendChild(ys);
             })(window, 'Genesys', 'https://apps.usw2.pure.cloud/genesys-bootstrap/genesys.min.js', {
                 environment: 'prod-usw2',
                 deploymentId: 'f5dcfe55-e3b6-4d5c-bcfb-5d40300125e3'
             });
-            
-            waitForWidget(1);
         }
         
-        // Method 2: Alternative CDN
-        function testMethod2() {
-            log('🧪 Testing Method 2: Alternative CDN approach', 'info');
-            clearWidget();
-            
-            // Using the standard Genesys Widgets approach
-            if(!window._genesys) window._genesys = {};
-            if(!window._gt) window._gt = [];
-            
-            window._genesys.widgets = {
-                main: {
-                    debug: true,
-                    theme: 'light',
-                    lang: 'en'
-                },
-                webchat: {
-                    userData: {},
-                    autoInvite: {
-                        enabled: false
+        // Enter key support
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password-input');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkPassword();
                     }
-                }
-            };
-            
-            const script = document.createElement('script');
-            script.src = 'https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js';
-            script.onload = function() {
-                log('✅ Method 2: Alternative script loaded', 'success');
-                if (window.CXBus) {
-                    window.CXBus.configure({
-                        debug: true,
-                        pluginsPath: 'https://apps.mypurecloud.com/widgets/9.0/plugins/'
-                    });
-                }
-            };
-            script.onerror = function() {
-                log('❌ Method 2: Alternative script failed', 'error');
-            };
-            
-            document.head.appendChild(script);
-            waitForWidget(2);
-        }
-        
-        // Method 3: Different environment
-        function testMethod3() {
-            log('🧪 Testing Method 3: Different environment', 'info');
-            clearWidget();
-            
-            (function (g, e, n, es, ys) {
-                g['_genesysJs'] = e;
-                g[e] = g[e] || function () {
-                    (g[e].q = g[e].q || []).push(arguments)
-                };
-                g[e].t = 1 * new Date();
-                g[e].c = es;
-                ys = document.createElement('script'); 
-                ys.async = 1; 
-                ys.src = n; 
-                ys.charset = 'utf-8';
-                
-                ys.onload = function() {
-                    log('✅ Method 3: Script loaded', 'success');
-                };
-                
-                ys.onerror = function() {
-                    log('❌ Method 3: Script failed to load', 'error');
-                };
-                
-                document.head.appendChild(ys);
-            })(window, 'Genesys', 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js', {
-                environment: 'mypurecloud.com',
-                deploymentId: 'f5dcfe55-e3b6-4d5c-bcfb-5d40300125e3'
-            });
-            
-            waitForWidget(3);
-        }
-        
-        
-        // Check if we're on localhost or need domain fix - MOVED to window load event
-        
-        
-        // Auto-start with method 1 - REMOVED since it now happens after password verification
+                });
+                passwordInput.focus();
+            }
+        });
     </script>
 </body>
 </html>
